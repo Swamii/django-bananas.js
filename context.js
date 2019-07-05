@@ -9,7 +9,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const AdminContext = _react.default.createContext({
+var AdminContext = _react.default.createContext({
   admin: undefined,
   router: undefined,
   api: undefined,

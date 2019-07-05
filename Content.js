@@ -29,9 +29,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const logger = _jsLogger.default.get("bananas");
+var logger = _jsLogger.default.get("bananas");
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     position: "relative",
     flexGrow: 1
@@ -45,7 +45,7 @@ const styles = theme => ({
     height: "100%"
   },
   padded: {
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing(3)
   }
 });
 
@@ -56,14 +56,18 @@ class Content extends _react.default.Component {
   }
 
   componentDidMount() {
-    const router = this.context ? this.context.router : null;
+    var router = this.context ? this.context.router : null;
 
     if (router) {
       // Listen to routeWillUpdate event to persist current scroll position
       this.unlisten = router.on("routeWillUpdate", this.routeWillUpdate.bind(this)); // Restore scroll position from history state
 
-      const scroll = router.history.location.state.scroll;
-      const current = this.scrollElement.current;
+      var {
+        scroll
+      } = router.history.location.state;
+      var {
+        current
+      } = this.scrollElement;
 
       if (current && scroll) {
         logger.debug("Restoring scroll position:", scroll);
@@ -83,17 +87,21 @@ class Content extends _react.default.Component {
     /*
      * Persist current scroll position, if element is scrolled.
      */
-    const router = this.context ? this.context.router : null;
+    var router = this.context ? this.context.router : null;
 
     if (!router || action === "REPLACE") {
       return;
     }
 
-    const current = this.scrollElement.current;
-    const oldScroll = router.history.location.state.scroll;
+    var {
+      current
+    } = this.scrollElement;
+    var oldScroll = router.history.location.state.scroll;
 
     if (current && (current.scrollTop > 0 || current.scrollTop !== oldScroll)) {
-      const scrollTop = current.scrollTop;
+      var {
+        scrollTop
+      } = current;
       logger.debug("Updating history with scroll position:", scrollTop);
       router.updateState({
         scroll: scrollTop
@@ -102,12 +110,14 @@ class Content extends _react.default.Component {
   }
 
   render() {
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          children = _this$props.children,
-          disablePadding = _this$props.disablePadding,
-          contained = _this$props.contained,
-          rest = _objectWithoutProperties(_this$props, ["classes", "children", "disablePadding", "contained"]);
+    var _this$props = this.props,
+        {
+      classes,
+      children,
+      disablePadding,
+      contained
+    } = _this$props,
+        rest = _objectWithoutProperties(_this$props, ["classes", "children", "disablePadding", "contained"]);
 
     return _react.default.createElement("div", {
       className: (0, _classnames.default)(classes.root)

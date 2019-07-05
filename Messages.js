@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MessagesController = exports.Messages = exports.Message = exports.default = void 0;
 
+var _colors = require("@material-ui/core/colors");
+
 var _IconButton = _interopRequireDefault(require("@material-ui/core/IconButton"));
+
+var _Slide = _interopRequireDefault(require("@material-ui/core/Slide"));
 
 var _Snackbar = _interopRequireDefault(require("@material-ui/core/Snackbar"));
 
 var _SnackbarContent = _interopRequireDefault(require("@material-ui/core/SnackbarContent"));
-
-var _colors = require("@material-ui/core/colors");
 
 var _styles = require("@material-ui/core/styles");
 
@@ -33,20 +35,20 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const typeIcon = {
+var typeIcon = {
   success: _CheckCircle.default,
   warning: _Warning.default,
   error: _Error.default,
   info: _Info.default
 };
 
-const styles = theme => ({
+var styles = theme => ({
   success: {
     backgroundColor: _colors.green[500]
   },
@@ -64,7 +66,7 @@ const styles = theme => ({
   },
   icontype: {
     opacity: 0.9,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   message: {
     display: "flex",
@@ -81,7 +83,7 @@ class Message extends _react.default.Component {
     });
 
     _defineProperty(this, "handleClose", (e, reason) => {
-      if (this.props.type === "error" && reason === "clickaway") {
+      if (reason === "clickaway") {
         return;
       }
 
@@ -92,20 +94,22 @@ class Message extends _react.default.Component {
   }
 
   render() {
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          message = _this$props.message,
-          id = _this$props.id,
-          type = _this$props.type,
-          remove = _this$props.remove;
-    const open = this.state.open && this.props.open;
-    const Icon = typeIcon[type];
+    var {
+      classes,
+      message,
+      id,
+      type,
+      remove
+    } = this.props;
+    var open = this.state.open && this.props.open;
+    var Icon = typeIcon[type];
     return _react.default.createElement(_Snackbar.default, {
       key: message + id,
       anchorOrigin: {
         vertical: "bottom",
         horizontal: "right"
       },
+      TransitionComponent: _Slide.default,
       onClose: this.handleClose,
       onExited: remove,
       open: open,
@@ -145,17 +149,18 @@ _defineProperty(Message, "propTypes", {
   id: _propTypes.default.number.isRequired
 });
 
-const BananasMessage = (0, _styles.withStyles)(styles, {
+var BananasMessage = (0, _styles.withStyles)(styles, {
   name: "BananasMessage"
 })(Message);
 exports.Message = BananasMessage;
 
 class Messages extends _react.default.Component {
   render() {
-    const _this$props2 = this.props,
-          classes = _this$props2.classes,
-          messages = _this$props2.messages;
-    const snackbars = messages.map(msg => _react.default.createElement(BananasMessage, _extends({
+    var {
+      classes,
+      messages
+    } = this.props;
+    var snackbars = messages.map(msg => _react.default.createElement(BananasMessage, _extends({
       key: msg.id + msg.message
     }, msg)));
     return snackbars ? _react.default.createElement("div", {
@@ -170,7 +175,7 @@ _defineProperty(Messages, "propTypes", {
   messages: _propTypes.default.array.isRequired
 });
 
-const BananasMessages = (0, _styles.withStyles)({
+var BananasMessages = (0, _styles.withStyles)({
   root: {}
 }, {
   name: "BananasMessages"
@@ -188,7 +193,9 @@ class MessagesController extends _react.default.Component {
   }
 
   getUniqueMessageId() {
-    const messageIndex = this.state.messageIndex;
+    var {
+      messageIndex
+    } = this.state;
     this.setState({
       messageIndex: messageIndex + 1
     });
@@ -197,8 +204,8 @@ class MessagesController extends _react.default.Component {
 
   messageCloseHandler(id) {
     return () => {
-      const updatedMessages = [...this.state.messages];
-      const index = updatedMessages.findIndex(msg => id === msg.id);
+      var updatedMessages = [...this.state.messages];
+      var index = updatedMessages.findIndex(msg => id === msg.id);
       updatedMessages.splice(index, 1);
       this.setState({
         messages: updatedMessages
@@ -207,10 +214,12 @@ class MessagesController extends _react.default.Component {
   }
 
   createMessage(_ref) {
-    let message = _ref.message,
-        type = _ref.type;
-    const messages = [...this.state.messages];
-    const id = this.getUniqueMessageId();
+    var {
+      message,
+      type
+    } = _ref;
+    var messages = [...this.state.messages];
+    var id = this.getUniqueMessageId();
     messages.push({
       message,
       type,
@@ -252,7 +261,7 @@ class MessagesController extends _react.default.Component {
   }
 
   dismissMessages() {
-    const openMessages = this.state.messages.filter(message => message.open);
+    var openMessages = this.state.messages.filter(message => message.open);
 
     if (openMessages.length) {
       this.setState({
@@ -264,7 +273,9 @@ class MessagesController extends _react.default.Component {
   }
 
   render() {
-    const messages = this.state.messages;
+    var {
+      messages
+    } = this.state;
     return _react.default.createElement(BananasMessages, {
       messages: messages
     });

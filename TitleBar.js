@@ -7,9 +7,9 @@ exports.default = void 0;
 
 var _Fab = _interopRequireDefault(require("@material-ui/core/Fab"));
 
-var _Typography = _interopRequireDefault(require("@material-ui/core/Typography"));
-
 var _styles = require("@material-ui/core/styles");
+
+var _Typography = _interopRequireDefault(require("@material-ui/core/Typography"));
 
 var _ChevronLeft = _interopRequireDefault(require("@material-ui/icons/ChevronLeft"));
 
@@ -27,7 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -35,7 +35,7 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {},
   colorPrimary: {},
   colorSecondary: {},
@@ -44,15 +44,15 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingRight: theme.spacing.unit * 2
+    paddingRight: theme.spacing(2)
   },
   title: {
     flexGrow: 0,
     flexShrink: 0
   },
   back: {
-    marginLeft: theme.spacing.unit / -2,
-    marginRight: theme.spacing.unit * 2,
+    marginLeft: -theme.spacing(2),
+    marginRight: theme.spacing(2),
     boxShadow: "none",
     borderWidth: "1.5pt",
     borderStyle: "solid",
@@ -64,26 +64,28 @@ const styles = theme => ({
   }
 });
 
-const TitleBar = (_ref) => {
-  let classes = _ref.classes,
-      theme = _ref.theme,
-      overrides = _ref.overrides,
-      children = _ref.children,
-      color = _ref.color,
-      title = _ref.title,
-      back = _ref.back,
-      dense = _ref.dense,
-      justify = _ref.justify,
+var TitleBar = (_ref) => {
+  var {
+    classes,
+    theme,
+    overrides,
+    children,
+    color,
+    title,
+    back,
+    dense,
+    justify
+  } = _ref,
       rest = _objectWithoutProperties(_ref, ["classes", "theme", "overrides", "children", "color", "title", "back", "dense", "justify"]);
 
-  const backLinkProps = back && back.indexOf(":") > 0 ? {
+  var backLinkProps = back && back.indexOf(":") > 0 ? {
     route: back
   } : {
     path: back
   }; // Determine primary background is overridden, don't emphasize tools if so
 
-  const primaryIsOverridden = theme.overrides && theme.overrides.BananasTitleBar && theme.overrides.BananasTitleBar.colorPrimary && (theme.overrides.BananasTitleBar.colorPrimary.background && theme.overrides.BananasTitleBar.colorPrimary.background !== theme.palette.primary.main || theme.overrides.BananasTitleBar.colorPrimary.background && theme.overrides.BananasTitleBar.colorPrimary.background !== theme.palette.primary.main);
-  const emphasize = color === "primary" ? !primaryIsOverridden : true;
+  var primaryIsOverridden = theme.overrides && theme.overrides.BananasTitleBar && theme.overrides.BananasTitleBar.colorPrimary && (theme.overrides.BananasTitleBar.colorPrimary.background && theme.overrides.BananasTitleBar.colorPrimary.background !== theme.palette.primary.main || theme.overrides.BananasTitleBar.colorPrimary.background && theme.overrides.BananasTitleBar.colorPrimary.background !== theme.palette.primary.main);
+  var emphasize = color === "primary" ? !primaryIsOverridden : true;
   return _react.default.createElement(_ToolBar.default, _extends({
     color: color,
     emphasize: emphasize,
@@ -138,6 +140,6 @@ TitleBar.defaultProps = {
 
 var _default = (0, _styles.withStyles)(styles, {
   name: "BananasTitleBar"
-})((0, _styles.withTheme)()(TitleBar));
+})((0, _styles.withTheme)(TitleBar));
 
 exports.default = _default;

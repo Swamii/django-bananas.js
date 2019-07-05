@@ -11,8 +11,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactFinalForm = require("react-final-form");
 
-var _FormContext = _interopRequireDefault(require("./FormContext"));
-
 var _BooleanField = _interopRequireDefault(require("./fields/BooleanField"));
 
 var _ChoiceField = _interopRequireDefault(require("./fields/ChoiceField"));
@@ -25,13 +23,15 @@ var _MultipleChoiceField = _interopRequireDefault(require("./fields/MultipleChoi
 
 var _TextField = _interopRequireDefault(require("./fields/TextField"));
 
+var _FormContext = _interopRequireDefault(require("./FormContext"));
+
 var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -39,7 +39,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const fieldsByType = {
+var fieldsByType = {
   string: {
     default: {
       component: _TextField.default
@@ -77,34 +77,37 @@ class AutoField extends _react.default.Component {
       throw new Error("This component requires FormContext to be present.");
     }
 
-    const _this$props = this.props,
-          name = _this$props.name,
-          fieldPropsOverride = _this$props.fieldProps,
-          variant = _this$props.variant,
-          rest = _objectWithoutProperties(_this$props, ["name", "fieldProps", "variant"]);
+    var _this$props = this.props,
+        {
+      name,
+      fieldProps: fieldPropsOverride,
+      variant
+    } = _this$props,
+        rest = _objectWithoutProperties(_this$props, ["name", "fieldProps", "variant"]);
 
-    const schema = (0, _utils.fieldFromSchema)(this.context.schema, name);
+    var schema = (0, _utils.fieldFromSchema)(this.context.schema, name);
 
     if (typeof schema === "undefined") {
-      throw new Error(`No schema found for field "${name}".`);
+      throw new Error("No schema found for field \"".concat(name, "\"."));
     }
 
-    const fieldType = schema.enum ? "enum" : schema.type;
-    const fields = fieldsByType[fieldType] || fieldsByType.string;
-
-    const _ref = fields[schema.format] || fields.default,
-          Field = _ref.component,
-          type = _ref.type;
-
+    var fieldType = schema.enum ? "enum" : schema.type;
+    var fields = fieldsByType[fieldType] || fieldsByType.string;
+    var {
+      component: Field,
+      type
+    } = fields[schema.format] || fields.default;
     return _react.default.createElement(_reactFinalForm.Field, _extends({
       name: name,
       type: type
     }, rest, {
       novalidate: true
-    }), (_ref2) => {
-      let meta = _ref2.meta,
-          input = _ref2.input;
-      const fieldProps = schema ? {
+    }), (_ref) => {
+      var {
+        meta,
+        input
+      } = _ref;
+      var fieldProps = schema ? {
         label: schema.title + (schema.required ? " *" : ""),
         error: (meta.error || meta.submitError) && meta.touched,
         helperText: meta.touched && (meta.error || meta.submitError)
@@ -114,7 +117,7 @@ class AutoField extends _react.default.Component {
         input: input,
         variant: variant,
         schema: schema,
-        fieldProps: _objectSpread({}, fieldProps, fieldPropsOverride)
+        fieldProps: _objectSpread({}, fieldProps, {}, fieldPropsOverride)
       });
     });
   }

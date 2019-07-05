@@ -30,22 +30,24 @@ class Link extends _react.default.Component {
     super(...arguments);
 
     _defineProperty(this, "linkClicked", e => {
-      const _e$currentTarget = e.currentTarget,
-            nodeName = _e$currentTarget.nodeName,
-            target = _e$currentTarget.target; // ignore click for new tab / new window behavior
+      var {
+        nodeName,
+        target
+      } = e.currentTarget; // ignore click for new tab / new window behavior
 
       if (nodeName === "A" && (target && target !== "_self" || e.metaKey || e.ctrlKey || e.shiftKey || e.nativeEvent && e.nativeEvent.which === 2)) {
         return;
       }
 
       e.preventDefault();
-      const _this$props = this.props,
-            route = _this$props.route,
-            params = _this$props.params,
-            path = _this$props.path,
-            query = _this$props.query,
-            hash = _this$props.hash,
-            patch = _this$props.patch;
+      var {
+        route,
+        params,
+        path,
+        query,
+        hash,
+        patch
+      } = this.props;
       this.context.router.route({
         id: route,
         params,
@@ -59,20 +61,25 @@ class Link extends _react.default.Component {
   }
 
   render() {
-    const _this$props2 = this.props,
-          route = _this$props2.route,
-          params = _this$props2.params,
-          path = _this$props2.path,
-          query = _this$props2.query,
-          href = _this$props2.href,
-          children = _this$props2.children,
-          patch = _this$props2.patch,
-          rest = _objectWithoutProperties(_this$props2, ["route", "params", "path", "query", "href", "children", "patch"]);
+    var _this$props = this.props,
+        {
+      route,
+      // id i.e. route name
+      params,
+      path,
+      query,
+      href,
+      children,
+      patch
+    } = _this$props,
+        rest = _objectWithoutProperties(_this$props, ["route", "params", "path", "query", "href", "children", "patch"]);
 
-    let hash = this.props.hash;
-    let child = null;
-    let isAnchor = false;
-    const props = rest;
+    var {
+      hash
+    } = this.props;
+    var child = null;
+    var isAnchor = false;
+    var props = rest;
 
     if (typeof children === "string") {
       child = _react.default.createElement(_Link.default, rest, children);
@@ -88,22 +95,23 @@ class Link extends _react.default.Component {
         return _react.default.cloneElement(child, props);
       }
 
-      let pathname = undefined;
+      var pathname = undefined;
 
       if (route) {
-        const resolvedRoute = this.context.router.reverse(route, params);
+        var resolvedRoute = this.context.router.reverse(route, params);
         pathname = resolvedRoute ? resolvedRoute.path : null;
       } else if (path) {
-        const resolvedRoute = this.context.router.resolve(path);
-        pathname = resolvedRoute ? resolvedRoute.path : path;
+        var _resolvedRoute = this.context.router.resolve(path);
+
+        pathname = _resolvedRoute ? _resolvedRoute.path : path;
       }
 
       if (!pathname) {
-        throw new Error(`Failed to create link for: ${route || path}`);
+        throw new Error("Failed to create link for: ".concat(route || path));
       }
 
-      hash = hash && !hash.startsWith("#") ? `#${hash}` : hash;
-      props.href = `${pathname}${(0, _utils.toQuery)(query)}${hash}`;
+      hash = hash && !hash.startsWith("#") ? "#".concat(hash) : hash;
+      props.href = "".concat(pathname).concat((0, _utils.toQuery)(query)).concat(hash);
     }
 
     props.onClick = e => {

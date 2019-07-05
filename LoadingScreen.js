@@ -31,7 +31,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     position: "relative",
     top: 0,
@@ -66,20 +66,22 @@ const styles = theme => ({
   logo: {
     position: "absolute",
     margin: 0,
-    marginTop: -36 - theme.spacing.unit * 3
+    marginTop: -36 - theme.spacing(3)
   }
 });
 
 class LoadingScreen extends _react.default.Component {
   renderScreen() {
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          loading = _this$props.loading,
-          color = _this$props.color,
-          logo = _this$props.logo,
-          backdrop = _this$props.backdrop,
-          role = _this$props.role,
-          rest = _objectWithoutProperties(_this$props, ["classes", "loading", "color", "logo", "backdrop", "role"]);
+    var _this$props = this.props,
+        {
+      classes,
+      loading,
+      color,
+      logo,
+      backdrop,
+      role
+    } = _this$props,
+        rest = _objectWithoutProperties(_this$props, ["classes", "loading", "color", "logo", "backdrop", "role"]);
 
     return _react.default.createElement("div", {
       "data-testid": role,
@@ -101,9 +103,10 @@ class LoadingScreen extends _react.default.Component {
   }
 
   render() {
-    const _this$props2 = this.props,
-          loading = _this$props2.loading,
-          backdrop = _this$props2.backdrop;
+    var {
+      loading,
+      backdrop
+    } = this.props;
     return backdrop ? _react.default.createElement(_Fade.default, {
       in: loading,
       timeout: {
@@ -134,7 +137,7 @@ _defineProperty(LoadingScreen, "defaultProps", {
   role: undefined
 });
 
-const BananasLoadingScreen = (0, _styles.withStyles)(styles, {
+var BananasLoadingScreen = (0, _styles.withStyles)(styles, {
   name: "BananasLoadingScreen"
 })(LoadingScreen);
 var _default = BananasLoadingScreen;

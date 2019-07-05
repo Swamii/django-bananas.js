@@ -13,9 +13,11 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireDefault(require("react"));
 
+var _Content = _interopRequireDefault(require("../Content"));
+
 var _context = _interopRequireDefault(require("../context"));
 
-var _ = require("..");
+var _TitleBar = _interopRequireDefault(require("../TitleBar"));
 
 var _ChangePasswordForm = _interopRequireDefault(require("./ChangePasswordForm"));
 
@@ -25,28 +27,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between"
   },
   paper: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     alignSelf: "flex-start"
   }
 });
 
 class MePage extends _react.default.Component {
   render() {
-    const admin = this.context.admin;
-    const _this$props = this.props,
-          data = _this$props.data,
-          classes = _this$props.classes;
-    const user = data.obj;
-    return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_.TitleBar, {
+    var {
+      admin
+    } = this.context;
+    var {
+      data,
+      classes
+    } = this.props;
+    var user = data.obj;
+    return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_TitleBar.default, {
       title: user.full_name
-    }), _react.default.createElement(_.Content, null, _react.default.createElement("div", {
+    }), _react.default.createElement(_Content.default, null, _react.default.createElement("div", {
       className: classes.root
     }, _react.default.createElement(_core.Paper, {
       classes: {

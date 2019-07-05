@@ -5,7 +5,7 @@
 ![npm](https://img.shields.io/npm/v/django-bananas.svg)
 
 ```
-npm install django-bananas react react-dom @material-ui/core @material-ui/icons lodash
+npm install django-bananas react react-dom @material-ui/core @material-ui/icons final-form final-form-arrays react-final-form react-final-form-arrays
 ```
 
 ``` jsx
@@ -43,6 +43,7 @@ ReactDOM.render(
 | **loginForm** | Function | *undefined* ||
 | **logLevel** | String, Object | *WARN* | INFO, DEBUG, WARN, ERROR, OFF |
 | **prefix** | String | *""* ||
+| **customizeContext** | Function | *undefined* ||
 
 ### api
 Base API URL.
@@ -157,6 +158,9 @@ Log level per application label:
 ### prefix
 Prefix sets the base url for the router. Use this if the admin app is mounted on a sub-path, i.e. `/bananas/`.
 
+### customizeContext
+A function that receives the standard `AdminContext` and returns a new context object.
+
 ## Browser support
 
 The code shipped to npm uses modern JavaScript, supported natively by all evergreen browsers. If you need deeper browser support, you need to configure your build system to transpile and polyfill `node_modules/` code.
@@ -188,4 +192,11 @@ This repo contains an example app in the `app/` folder.
    docker-compose up -d
    ```
 
-(If you develop on this package, you need to run `npm ci` both in the repo root and in `app/` to make `npm test` pass.)
+   Alternatively, you could run outside docker:
+
+   ```
+   npm ci
+   npm start
+   ```
+
+(If you develop on this package, you need to run `npm ci` and run tests outside docker. See package.json.)

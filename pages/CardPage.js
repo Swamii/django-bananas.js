@@ -23,7 +23,7 @@ var _TitleBar = _interopRequireDefault(require("../TitleBar"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const styles = () => ({
+var styles = () => ({
   root: {
     position: "absolute",
     top: 0,
@@ -40,11 +40,13 @@ const styles = () => ({
   }
 });
 
-const CardPage = (_ref) => {
-  let classes = _ref.classes,
-      children = _ref.children,
-      title = _ref.title,
-      subtitle = _ref.subtitle;
+var CardPage = (_ref) => {
+  var {
+    classes,
+    children,
+    title,
+    subtitle
+  } = _ref;
   return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_TitleBar.default, {
     title: title
   }), _react.default.createElement(_Content.default, null, _react.default.createElement("div", {

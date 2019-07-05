@@ -12,33 +12,33 @@ function normalizePath(path) {
 
 
 function fieldFromSchema(schema, field) {
-  const normalizedSchema = {
+  var normalizedSchema = {
     type: "object",
     properties: schema
   };
-  const normalizedPath = normalizePath(field);
+  var normalizedPath = normalizePath(field);
   return normalizedPath.split(".").reduce((acc, key) => {
     if (acc.type === "object") {
-      const value = acc.properties[key];
+      var value = acc.properties[key];
 
       if (typeof value === "undefined") {
-        throw new Error(`Encountered a non-existent key "${key}".`);
+        throw new Error("Encountered a non-existent key \"".concat(key, "\"."));
       }
 
       return value;
     } else if (acc.type === "array") {
       if (!key.match(/^\d+$/)) {
-        throw new Error(`Encountered a non-numeric index "${key}" access on an array.`);
+        throw new Error("Encountered a non-numeric index \"".concat(key, "\" access on an array."));
       }
 
       return acc.items;
     }
 
-    throw new Error(`Encountered lookup "${key}" on unsupported type "${acc.type}".`);
+    throw new Error("Encountered lookup \"".concat(key, "\" on unsupported type \"").concat(acc.type, "\"."));
   }, normalizedSchema);
 }
 
 function fieldFromErrorResponse(response, field) {
-  const normalizedPath = normalizePath(field);
+  var normalizedPath = normalizePath(field);
   return normalizedPath.split(".").reduce((acc, key) => acc[key.match(/^\d+$/) ? Number(key) : key], response);
 }

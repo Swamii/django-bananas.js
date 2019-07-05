@@ -27,7 +27,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
     position: "relative",
@@ -41,9 +41,11 @@ const styles = theme => ({
 
 class ThemedPage extends _react.default.Component {
   render() {
-    const _this$props = this.props,
-          theme = _this$props.theme,
-          rest = _objectWithoutProperties(_this$props, ["theme"]);
+    var _this$props = this.props,
+        {
+      theme
+    } = _this$props,
+        rest = _objectWithoutProperties(_this$props, ["theme"]);
 
     return theme ? _react.default.createElement(_styles.MuiThemeProvider, {
       theme: theme
@@ -58,7 +60,7 @@ _defineProperty(ThemedPage, "propTypes", {
   controller: _propTypes.default.shape({
     current: _propTypes.default.object
   }).isRequired,
-  component: _propTypes.default.func,
+  component: _propTypes.default.oneOfType([_propTypes.default.object, _propTypes.default.func, _propTypes.default.node]),
   theme: _propTypes.default.object
 });
 
@@ -69,11 +71,13 @@ _defineProperty(ThemedPage, "defaultProps", {
 
 class Page extends _react.default.Component {
   render() {
-    const _this$props2 = this.props,
-          classes = _this$props2.classes,
-          controller = _this$props2.controller,
-          PageComponent = _this$props2.component,
-          pageProps = _objectWithoutProperties(_this$props2, ["classes", "controller", "component"]);
+    var _this$props2 = this.props,
+        {
+      classes,
+      controller,
+      component: PageComponent
+    } = _this$props2,
+        pageProps = _objectWithoutProperties(_this$props2, ["classes", "controller", "component"]);
 
     return _react.default.createElement("div", {
       className: classes.root
@@ -91,7 +95,7 @@ _defineProperty(Page, "propTypes", {
   controller: _propTypes.default.shape({
     current: _propTypes.default.object
   }).isRequired,
-  component: _propTypes.default.func
+  component: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object, _propTypes.default.node])
 });
 
 _defineProperty(Page, "defaultProps", {
@@ -105,15 +109,15 @@ class PageLoadController extends _react.default.Component {
   }
 
   progress() {
-    let on = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-    const level = this.meter.step(on, "progress");
+    var on = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    var level = this.meter.step(on, "progress");
     this.forceUpdate();
     return level;
   }
 
   loading() {
-    let on = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-    const level = this.meter.step(on, "loading");
+    var on = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    var level = this.meter.step(on, "loading");
     this.forceUpdate();
     return level;
   }
@@ -135,7 +139,7 @@ exports.PageLoadController = PageLoadController;
 
 _defineProperty(PageLoadController, "expose", ["progress", "loading"]);
 
-const BananasPage = (0, _styles.withStyles)(styles, {
+var BananasPage = (0, _styles.withStyles)(styles, {
   name: "BananasPage"
 })(Page);
 var _default = ThemedPage;

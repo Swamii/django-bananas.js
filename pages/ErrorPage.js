@@ -15,21 +15,21 @@ var _react = _interopRequireDefault(require("react"));
 
 var _context = _interopRequireDefault(require("../context"));
 
-var _ = require("..");
+var _utils = require("../utils");
 
 var _CardPage = _interopRequireDefault(require("./CardPage"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const errorMessages = {
+var errorMessages = {
   403: "You are authenticated as %(username)s, but are not authorized to access this page. Would you like to login to a different account?",
   404: "We're sorry, but the requested page could not be found.",
   501: "We're sorry, but the requested page could not be found."
 };
 
-const styles = theme => ({
+var styles = theme => ({
   actions: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     textAlign: "right"
   },
   actionButton: {
@@ -37,17 +37,23 @@ const styles = theme => ({
   }
 });
 
-const ErrorPage = (_ref) => {
-  let classes = _ref.classes,
-      title = _ref.title,
-      statusCode = _ref.data.statusCode;
+var ErrorPage = (_ref) => {
+  var {
+    classes,
+    title,
+    data: {
+      statusCode
+    }
+  } = _ref;
   return _react.default.createElement(_context.default.Consumer, null, (_ref2) => {
-    let admin = _ref2.admin,
-        user = _ref2.user;
+    var {
+      admin,
+      user
+    } = _ref2;
     return _react.default.createElement(_CardPage.default, {
       title: title,
-      subtitle: `Status: ${statusCode || (0, _.t)("Unknown")}`
-    }, _react.default.createElement(_.Translate, {
+      subtitle: "Status: ".concat(statusCode || (0, _utils.t)("Unknown"))
+    }, _react.default.createElement(_utils.Translate, {
       params: user
     }, statusCode >= 500 ? "There's been an error. It's been reported to the site administrators via email and should be fixed shortly. Thanks for your patience." : errorMessages[statusCode] || ""), statusCode === 403 && _react.default.createElement("div", {
       className: classes.actions
@@ -56,7 +62,7 @@ const ErrorPage = (_ref) => {
       color: "secondary",
       onClick: () => admin.logout(),
       className: classes.actionButton
-    }, (0, _.t)("Log in again"))));
+    }, (0, _utils.t)("Log in again"))));
   });
 };
 

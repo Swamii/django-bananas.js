@@ -15,7 +15,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const styles = () => ({
+var styles = () => ({
   root: {
     position: "absolute",
     zIndex: 3000,
@@ -25,10 +25,12 @@ const styles = () => ({
   bar: {}
 });
 
-const ProgressBar = (_ref) => {
-  let classes = _ref.classes,
-      color = _ref.color,
-      loading = _ref.loading;
+var ProgressBar = (_ref) => {
+  var {
+    classes,
+    color,
+    loading
+  } = _ref;
   return loading && _react.default.createElement(_LinearProgress.default, {
     color: color,
     classes: {
@@ -47,7 +49,7 @@ ProgressBar.defaultProps = {
   loading: true,
   color: "secondary"
 };
-const BananasProgressBar = (0, _styles.withStyles)(styles, {
+var BananasProgressBar = (0, _styles.withStyles)(styles, {
   name: "BananasProgressBar"
 })(ProgressBar);
 var _default = BananasProgressBar;

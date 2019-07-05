@@ -38,13 +38,17 @@ class ErrorBoundary extends _react.default.Component {
   }
 
   render() {
-    const _this$props = this.props,
-          children = _this$props.children,
-          component = _this$props.component,
-          props = _objectWithoutProperties(_this$props, ["children", "component"]);
+    var _this$props = this.props,
+        {
+      children,
+      component
+    } = _this$props,
+        props = _objectWithoutProperties(_this$props, ["children", "component"]);
 
-    const Fallback = component;
-    const error = this.state.error;
+    var Fallback = component;
+    var {
+      error
+    } = this.state;
     return error ? Fallback ? _react.default.createElement(Fallback, props) : _react.default.createElement(_ErrorPage.default, {
       key: error.code,
       title: error.message,

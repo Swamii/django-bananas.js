@@ -17,29 +17,29 @@ var _react = _interopRequireDefault(require("react"));
 
 var _context = _interopRequireDefault(require("../context"));
 
-var _ = require("..");
+var _utils = require("../utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const logger = _jsLogger.default.get("bananas");
+var logger = _jsLogger.default.get("bananas");
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     maxWidth: 350
   },
   formLabel: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
   },
   formControlNormal: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     marginBottom: 0
   },
   field: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(3)
   }
 });
 
@@ -64,13 +64,15 @@ class ChangePasswordForm extends _react.default.Component {
 
     _defineProperty(this, "onSubmit", e => {
       e.preventDefault();
-      const _this$context = this.context,
-            api = _this$context.api,
-            admin = _this$context.admin;
-      const _this$state = this.state,
-            old_password = _this$state.old_password,
-            new_password1 = _this$state.new_password1,
-            new_password2 = _this$state.new_password2;
+      var {
+        api,
+        admin
+      } = this.context;
+      var {
+        old_password,
+        new_password1,
+        new_password2
+      } = this.state;
       admin.dismissMessages();
       api["bananas.change_password:create"]({
         data: {
@@ -79,7 +81,7 @@ class ChangePasswordForm extends _react.default.Component {
           new_password2
         }
       }).then(() => {
-        admin.success((0, _.t)("Password changed successfully."));
+        admin.success((0, _utils.t)("Password changed successfully."));
         this.setState({
           touched: false,
           errors: null,
@@ -89,7 +91,7 @@ class ChangePasswordForm extends _react.default.Component {
         });
       }, error => {
         logger.error("Failed to change password", error.response);
-        admin.error((0, _.t)("Incorrect authentication credentials."));
+        admin.error((0, _utils.t)("Incorrect authentication credentials."));
         this.setState({
           errors: error.response.obj,
           touched: false
@@ -99,18 +101,23 @@ class ChangePasswordForm extends _react.default.Component {
   }
 
   render() {
-    const classes = this.props.classes;
-    const api = this.context.api;
-    const endpoint = api["bananas.change_password:create"];
-    const schema = endpoint.schema.data;
-    const _this$state2 = this.state,
-          errors = _this$state2.errors,
-          touched = _this$state2.touched,
-          old_password = _this$state2.old_password,
-          new_password1 = _this$state2.new_password1,
-          new_password2 = _this$state2.new_password2;
-    const passwordCheckError = new_password2 !== "" && new_password2 !== new_password1;
-    const filled = [old_password, new_password1, new_password2].every(value => value.length > 0);
+    var {
+      classes
+    } = this.props;
+    var {
+      api
+    } = this.context;
+    var endpoint = api["bananas.change_password:create"];
+    var schema = endpoint.schema.data;
+    var {
+      errors,
+      touched,
+      old_password,
+      new_password1,
+      new_password2
+    } = this.state;
+    var passwordCheckError = new_password2 !== "" && new_password2 !== new_password1;
+    var filled = [old_password, new_password1, new_password2].every(value => value.length > 0);
     return _react.default.createElement("form", {
       onSubmit: this.onSubmit,
       className: classes.root,
@@ -120,7 +127,7 @@ class ChangePasswordForm extends _react.default.Component {
       classes: {
         root: classes.formLabel
       }
-    }, endpoint.title), _react.default.createElement(_.Translate, null, "Please enter your old password, for security's sake, and then enter your new password twice so we can verify you typed it in correctly."), _react.default.createElement(_core.FormControl, {
+    }, endpoint.title), _react.default.createElement(_utils.Translate, null, "Please enter your old password, for security's sake, and then enter your new password twice so we can verify you typed it in correctly."), _react.default.createElement(_core.FormControl, {
       fullWidth: true,
       component: "fieldset"
     }, _react.default.createElement(_core.FormGroup, null, ["old_password", "new_password1", "new_password2"].map(field => _react.default.createElement(_core.TextField, {
@@ -153,7 +160,7 @@ class ChangePasswordForm extends _react.default.Component {
       color: "primary",
       fullWidth: true,
       disabled: Boolean(errors) && !touched || !filled || passwordCheckError
-    }, (0, _.t)("Change my password"))));
+    }, (0, _utils.t)("Change my password"))));
   }
 
 }

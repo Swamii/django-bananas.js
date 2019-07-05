@@ -7,9 +7,9 @@ exports.default = void 0;
 
 var _dateFns = _interopRequireDefault(require("@date-io/date-fns"));
 
-var _finalFormArrays = _interopRequireDefault(require("final-form-arrays"));
+var _pickers = require("@material-ui/pickers");
 
-var _materialUiPickers = require("material-ui-pickers");
+var _finalFormArrays = _interopRequireDefault(require("final-form-arrays"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -17,7 +17,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactFinalForm = require("react-final-form");
 
-var _ = require("..");
+var _context = _interopRequireDefault(require("../context"));
 
 var _FormContext = _interopRequireDefault(require("./FormContext"));
 
@@ -29,7 +29,7 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -38,12 +38,13 @@ class Form extends _react.default.Component {
     super(...arguments);
 
     _defineProperty(this, "handleSubmit", values => {
-      const _this$props = this.props,
-            route = _this$props.route,
-            params = _this$props.params,
-            onSubmit = _this$props.onSubmit;
+      var {
+        route,
+        params,
+        onSubmit
+      } = this.props;
 
-      const endpoint = data => this.context.api[route](_objectSpread({}, params, {
+      var endpoint = data => this.context.api[route](_objectSpread({}, params, {
         data: data || values
       }));
 
@@ -59,38 +60,47 @@ class Form extends _react.default.Component {
         this.context.admin.success("Changes have been saved!");
         return false;
       }).catch((_ref) => {
-        let _ref$response = _ref.response,
-            statusText = _ref$response.statusText,
-            status = _ref$response.status,
-            obj = _ref$response.obj;
-        const errorMessages = {
+        var {
+          response: {
+            statusText,
+            status,
+            obj
+          }
+        } = _ref;
+        var errorMessages = {
           400: "Please correct the errors on this form."
         };
-        this.context.admin.error(errorMessages[status] || `${status} : ${statusText}`);
+        this.context.admin.error(errorMessages[status] || "".concat(status, " : ").concat(statusText));
         return obj;
       });
     });
   }
 
   getSchema(route) {
-    const schema = this.context.api[route].schema;
+    var {
+      schema
+    } = this.context.api[route];
     return schema && schema.data ? schema.data : undefined;
   }
 
   render() {
-    const _this$props2 = this.props,
-          route = _this$props2.route,
-          children = _this$props2.children,
-          formProps = _this$props2.formProps,
-          props = _objectWithoutProperties(_this$props2, ["route", "children", "formProps"]);
+    var _this$props = this.props,
+        {
+      route,
+      children,
+      formProps
+    } = _this$props,
+        props = _objectWithoutProperties(_this$props, ["route", "children", "formProps"]);
 
-    return _react.default.createElement(_materialUiPickers.MuiPickersUtilsProvider, {
+    return _react.default.createElement(_pickers.MuiPickersUtilsProvider, {
       utils: _dateFns.default
     }, _react.default.createElement(_reactFinalForm.Form, _extends({}, props, {
       mutators: _objectSpread({}, _finalFormArrays.default),
       onSubmit: this.handleSubmit
     }), (_ref2) => {
-      let handleSubmit = _ref2.handleSubmit,
+      var {
+        handleSubmit
+      } = _ref2,
           childProps = _objectWithoutProperties(_ref2, ["handleSubmit"]);
 
       return _react.default.createElement("form", _extends({
@@ -107,7 +117,7 @@ class Form extends _react.default.Component {
 
 }
 
-_defineProperty(Form, "contextType", _.AdminContext);
+_defineProperty(Form, "contextType", _context.default);
 
 Form.propTypes = {
   children: _propTypes.default.oneOfType([_propTypes.default.arrayOf(_propTypes.default.node), _propTypes.default.node, _propTypes.default.func]).isRequired,

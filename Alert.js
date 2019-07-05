@@ -25,17 +25,17 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireDefault(require("react"));
 
-var _ = require(".");
+var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {},
   agree: {},
   dismiss: {
@@ -46,18 +46,20 @@ const styles = theme => ({
   }
 });
 
-const Transition = props => _react.default.createElement(_Slide.default, _extends({
-  direction: "down"
-}, props));
+var Transition = _react.default.forwardRef((props, ref) => _react.default.createElement(_Slide.default, _extends({
+  direction: "down",
+  ref: ref
+}, props)));
 
 class Alert extends _react.default.Component {
   constructor() {
     super(...arguments);
 
     _defineProperty(this, "onAgree", () => {
-      const _this$props = this.props,
-            onClose = _this$props.onClose,
-            onAgree = _this$props.onAgree;
+      var {
+        onClose,
+        onAgree
+      } = this.props;
 
       if (onClose) {
         onClose();
@@ -69,9 +71,10 @@ class Alert extends _react.default.Component {
     });
 
     _defineProperty(this, "onDismiss", () => {
-      const _this$props2 = this.props,
-            onClose = _this$props2.onClose,
-            onDismiss = _this$props2.onDismiss;
+      var {
+        onClose,
+        onDismiss
+      } = this.props;
 
       if (onClose) {
         onClose();
@@ -84,14 +87,15 @@ class Alert extends _react.default.Component {
   }
 
   render() {
-    const _this$props3 = this.props,
-          classes = _this$props3.classes,
-          open = _this$props3.open,
-          title = _this$props3.title,
-          message = _this$props3.message,
-          agree = _this$props3.agree,
-          dismiss = _this$props3.dismiss,
-          keepMounted = _this$props3.keepMounted;
+    var {
+      classes,
+      open,
+      title,
+      message,
+      agree,
+      dismiss,
+      keepMounted
+    } = this.props;
     return _react.default.createElement(_Dialog.default, {
       open: open,
       fullWidth: true,
@@ -149,7 +153,7 @@ _defineProperty(Alert, "defaultProps", {
   keepMounted: true
 });
 
-const BananasAlert = (0, _styles.withStyles)(styles, {
+var BananasAlert = (0, _styles.withStyles)(styles, {
   name: "BananasAlert"
 })(Alert);
 exports.Alert = BananasAlert;
@@ -164,7 +168,7 @@ class AlertController extends _react.default.Component {
   }
 
   alert(props) {
-    const state = typeof props === "string" ? {
+    var state = typeof props === "string" ? {
       message: props,
       dismiss: false
     } : props;
@@ -175,10 +179,10 @@ class AlertController extends _react.default.Component {
 
   confirm(props) {
     /* Texts from Django admin translation messages, please don't change */
-    const confirm = _objectSpread({
-      title: (0, _.t)("Are you sure?"),
-      agree: (0, _.t)("Yes, I'm sure"),
-      dismiss: (0, _.t)("No, take me back")
+    var confirm = _objectSpread({
+      title: (0, _utils.t)("Are you sure?"),
+      agree: (0, _utils.t)("Yes, I'm sure"),
+      dismiss: (0, _utils.t)("No, take me back")
     }, typeof props === "string" ? {
       message: props
     } : props);

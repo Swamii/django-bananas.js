@@ -17,17 +17,17 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireDefault(require("react"));
 
-var _MenuItem = _interopRequireDefault(require("./MenuItem"));
-
 var _context = _interopRequireDefault(require("./context"));
+
+var _MenuItem = _interopRequireDefault(require("./MenuItem"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: _objectSpread({
     display: "flex",
     padding: 0,
@@ -57,20 +57,22 @@ const styles = theme => ({
 
 class User extends _react.default.Component {
   render() {
-    const _this$context = this.context,
-          user = _this$context.user,
-          router = _this$context.router;
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          variant = _this$props.variant,
-          collapsed = _this$props.collapsed,
-          icon = _this$props.icon;
-    const isDrawerVariant = variant === "drawer";
-    const isAppBarVariant = variant === "appbar";
-    const route = router.getRoute("bananas.me:list");
-    const logoutText = router.getRoute("bananas.logout:create").title;
-    const UserIcon = icon || _AccountCircle.default;
-    const selected = route.path === router.history.location.pathname;
+    var {
+      user,
+      router
+    } = this.context;
+    var {
+      classes,
+      variant,
+      collapsed,
+      icon
+    } = this.props;
+    var isDrawerVariant = variant === "drawer";
+    var isAppBarVariant = variant === "appbar";
+    var route = router.getRoute("bananas.me:list");
+    var logoutText = router.getRoute("bananas.logout:create").title;
+    var UserIcon = icon || _AccountCircle.default;
+    var selected = route.path === router.history.location.pathname;
     return Boolean(user.id) && _react.default.createElement(_core.List, {
       classes: {
         root: classes.root
@@ -109,7 +111,7 @@ User.propTypes = {
   classes: _propTypes.default.object.isRequired,
   variant: _propTypes.default.string,
   collapsed: _propTypes.default.bool,
-  icon: _propTypes.default.func
+  icon: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object])
 };
 User.defaultProps = {
   variant: "drawer",

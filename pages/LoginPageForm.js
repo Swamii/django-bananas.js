@@ -11,9 +11,9 @@ var _DialogActions = _interopRequireDefault(require("@material-ui/core/DialogAct
 
 var _DialogContent = _interopRequireDefault(require("@material-ui/core/DialogContent"));
 
-var _TextField = _interopRequireDefault(require("@material-ui/core/TextField"));
-
 var _styles = require("@material-ui/core/styles");
+
+var _TextField = _interopRequireDefault(require("@material-ui/core/TextField"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -21,34 +21,34 @@ var _react = _interopRequireDefault(require("react"));
 
 var _context = _interopRequireDefault(require("../context"));
 
-var _ = require("..");
+var _utils = require("../utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = () => ({
+var styles = () => ({
   submit: {
     boxShadow: "none"
   }
 });
 
-const DialogContent = (0, _styles.withStyles)(theme => ({
+var DialogContent = (0, _styles.withStyles)(theme => ({
   root: {
     margin: 0,
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     "& > * + * ": {
-      marginTop: theme.spacing.unit * 2
+      marginTop: theme.spacing(2)
     }
   }
 }))(_DialogContent.default);
-const DialogActions = (0, _styles.withStyles)(theme => ({
+var DialogActions = (0, _styles.withStyles)(theme => ({
   root: {
-    borderTop: `1px solid ${theme.palette.divider}`,
+    borderTop: "1px solid ".concat(theme.palette.divider),
     margin: 0,
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 }))(_DialogActions.default);
 
@@ -60,19 +60,24 @@ class LoginForm extends _react.default.Component {
 
     _defineProperty(this, "onSubmit", e => {
       e.preventDefault();
-      const admin = this.context.admin;
-      const _this$state = this.state,
-            username = _this$state.username,
-            password = _this$state.password;
-      const logger = this.props.logger;
+      var {
+        admin
+      } = this.context;
+      var {
+        username,
+        password
+      } = this.state;
+      var {
+        logger
+      } = this.props;
       admin.login(username, password).catch(error => {
         logger.debug("Login Failed", error.response, error);
-        this.context.admin.error((0, _.t)("Unable to log in with provided credentials."));
+        this.context.admin.error((0, _utils.t)("Unable to log in with provided credentials."));
       });
     });
 
     _defineProperty(this, "save", e => {
-      const s = _objectSpread({}, this.state);
+      var s = _objectSpread({}, this.state);
 
       s[e.target.name] = e.target.value;
       this.setState(_objectSpread({}, s));
@@ -80,10 +85,14 @@ class LoginForm extends _react.default.Component {
   }
 
   render() {
-    const classes = this.props.classes;
-    const api = this.context.api;
-    const endpoint = api["bananas.login:create"];
-    const schema = endpoint.schema.data;
+    var {
+      classes
+    } = this.props;
+    var {
+      api
+    } = this.context;
+    var endpoint = api["bananas.login:create"];
+    var schema = endpoint.schema.data;
     return _react.default.createElement("form", {
       onSubmit: this.onSubmit
     }, _react.default.createElement(DialogContent, null, _react.default.createElement(_TextField.default, {
@@ -113,7 +122,7 @@ class LoginForm extends _react.default.Component {
       classes: {
         contained: classes.submit
       }
-    }, (0, _.t)("Log in"))));
+    }, (0, _utils.t)("Log in"))));
   }
 
 }

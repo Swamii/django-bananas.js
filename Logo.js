@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const styles = theme => ({
+var styles = theme => ({
   gInner: {
     fill: theme.palette.primary.contrastText
   },
@@ -31,9 +31,11 @@ const styles = theme => ({
   }
 });
 
-const Logo = (_ref) => {
-  let src = _ref.src,
-      classes = _ref.classes;
+var Logo = (_ref) => {
+  var {
+    src,
+    classes
+  } = _ref;
 
   if (src === true) {
     return _react.default.createElement("svg", {

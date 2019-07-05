@@ -15,15 +15,15 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireDefault(require("react"));
 
-var _MenuItem = _interopRequireDefault(require("./MenuItem"));
-
 var _context = _interopRequireDefault(require("./context"));
+
+var _MenuItem = _interopRequireDefault(require("./MenuItem"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     "&$verticalRoot > $list + $list": {
       borderTopWidth: 1,
@@ -62,8 +62,8 @@ const styles = theme => ({
   },
   vertical: {
     "&multiple": {
-      paddingTop: theme.spacing.unit,
-      paddingBottom: theme.spacing.unit
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1)
     }
   },
   dense: {},
@@ -72,7 +72,7 @@ const styles = theme => ({
   subheader: {
     backgroundColor: theme.palette.background.paper,
     textTransform: "uppercase",
-    fontSize: `${0.75}rem`,
+    fontSize: "".concat(0.75, "rem"),
     overflow: "hidden",
     height: 32,
     display: "flex",
@@ -95,26 +95,29 @@ const styles = theme => ({
 
 class Navigation extends _react.default.Component {
   render() {
-    const currentUrl = this.context.router.history.location.pathname;
-    const _this$props = this.props,
-          routes = _this$props.routes,
-          collapsed = _this$props.collapsed,
-          horizontal = _this$props.horizontal,
-          dense = _this$props.dense,
-          nav = _this$props.nav,
-          showIcons = _this$props.showIcons,
-          classes = _this$props.classes;
-    const navKeys = Object.keys(nav); // Put items listed in `nav` first, then keep the original (alphabetical) order.
+    var currentUrl = this.context.router.history.location.pathname;
+    var {
+      routes,
+      collapsed,
+      horizontal,
+      dense,
+      nav,
+      showIcons,
+      classes
+    } = this.props;
+    var navKeys = Object.keys(nav); // Put items listed in `nav` first, then keep the original (alphabetical) order.
 
-    const indexMap = routes.reduce((result, route, index) => {
-      const navIndex = navKeys.indexOf(route.id);
+    var indexMap = routes.reduce((result, route, index) => {
+      var navIndex = navKeys.indexOf(route.id);
       result[route.id] = navIndex >= 0 ? navIndex : index + navKeys.length;
       return result;
     }, {});
-    const sortedRoutes = routes.slice().sort((a, b) => indexMap[a.id] - indexMap[b.id]);
-    const groupedRoutes = sortedRoutes.reduce((result, route) => {
-      const app = route.app;
-      let appRoutes = result[app];
+    var sortedRoutes = routes.slice().sort((a, b) => indexMap[a.id] - indexMap[b.id]);
+    var groupedRoutes = sortedRoutes.reduce((result, route) => {
+      var {
+        app
+      } = route;
+      var appRoutes = result[app];
 
       if (appRoutes === undefined) {
         appRoutes = [];
@@ -124,15 +127,15 @@ class Navigation extends _react.default.Component {
       appRoutes.push(route);
       return result;
     }, {});
-    const apps = Object.keys(groupedRoutes);
-    const multipleApps = apps.length > 2;
+    var apps = Object.keys(groupedRoutes);
+    var multipleApps = apps.length > 2;
     return _react.default.createElement("div", {
       className: (0, _classnames.default)(classes.root, {
         [classes.verticalRoot]: !horizontal,
         [classes.horizontalRoot]: horizontal
       })
     }, apps.map(app => {
-      const appRoutes = groupedRoutes[app];
+      var appRoutes = groupedRoutes[app];
       return _react.default.createElement(_core.List, {
         key: app,
         disablePadding: true,
@@ -149,9 +152,11 @@ class Navigation extends _react.default.Component {
           })
         }, app)
       }, appRoutes.map((_ref) => {
-        let id = _ref.id,
-            path = _ref.path,
-            title = _ref.title;
+        var {
+          id,
+          path,
+          title
+        } = _ref;
         return (// Only show "Dashboard" item in vertical+icon mode
           (!horizontal && (showIcons || !showIcons && id !== "home") || horizontal && id !== "home") && _react.default.createElement(_MenuItem.default, {
             key: id,

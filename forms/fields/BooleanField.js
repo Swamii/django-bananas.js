@@ -17,12 +17,15 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-const BooleanField = (_ref) => {
-  let _ref$input = _ref.input,
-      value = _ref$input.value,
-      inputProps = _objectWithoutProperties(_ref$input, ["value"]),
-      variant = _ref.variant,
-      fieldProps = _ref.fieldProps;
+var BooleanField = (_ref) => {
+  var {
+    input: {
+      value
+    },
+    variant,
+    fieldProps
+  } = _ref,
+      inputProps = _objectWithoutProperties(_ref.input, ["value"]);
 
   return _react.default.createElement(_core.FormControl, {
     required: true,

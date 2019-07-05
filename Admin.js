@@ -21,6 +21,12 @@ var _react = _interopRequireDefault(require("react"));
 
 var _Alert = require("./Alert");
 
+var _api = _interopRequireDefault(require("./api"));
+
+var _context = _interopRequireDefault(require("./context"));
+
+var _errors = require("./errors");
+
 var _LoadingScreen = _interopRequireDefault(require("./LoadingScreen"));
 
 var _Messages = require("./Messages");
@@ -28,12 +34,6 @@ var _Messages = require("./Messages");
 var _NavBar = _interopRequireDefault(require("./NavBar"));
 
 var _Page = require("./Page");
-
-var _api = _interopRequireDefault(require("./api"));
-
-var _context = _interopRequireDefault(require("./context"));
-
-var _errors = require("./errors");
 
 var _pages = require("./pages");
 
@@ -45,8 +45,6 @@ var _themes = _interopRequireWildcard(require("./themes"));
 
 var _utils = require("./utils");
 
-var _ = require(".");
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -57,15 +55,19 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 _jsLogger.default.useDefaults();
 
-const logger = _jsLogger.default.get("bananas");
+var logger = _jsLogger.default.get("bananas");
 
-const styles = theme => {
+var styles = theme => {
   return {
     root: {
       display: "flex",
@@ -95,7 +97,7 @@ class Admin extends _react.default.Component {
 
     _defineProperty(this, "Page", null);
 
-    const propSettings = {
+    var propSettings = {
       editable: props.editableSettings,
       horizontal: props.layout === "horizontal",
       icons: Boolean(props.nav) && !Array.isArray(props.nav),
@@ -124,26 +126,26 @@ class Admin extends _react.default.Component {
   }
 
   getLogLevel(namespace, logLevel) {
-    const level = (typeof this.props.logLevel === "string" ? this.props.logLevel : this.props.logLevel[namespace]) || logLevel || "WARN";
+    var level = (typeof this.props.logLevel === "string" ? this.props.logLevel : this.props.logLevel[namespace]) || logLevel || "WARN";
     return _jsLogger.default[level];
   }
 
   getLogger(namespace) {
-    const log = _jsLogger.default.get(namespace);
+    var log = _jsLogger.default.get(namespace);
 
-    const level = this.getLogLevel(namespace);
+    var level = this.getLogLevel(namespace);
     log.setLevel(level);
     return log;
   }
 
   makeContext(context) {
-    const locals = ["setTitle", "login", "logout"].reduce((result, shortcut) => _objectSpread({}, result, {
+    var locals = ["setTitle", "login", "logout"].reduce((result, shortcut) => _objectSpread({}, result, {
       [shortcut]: this[shortcut].bind(this)
     }), {
       settings: this.settings
     });
     return _objectSpread({
-      admin: _objectSpread({}, this.admin, locals),
+      admin: _objectSpread({}, this.admin, {}, locals),
       router: undefined,
       api: undefined,
       user: undefined
@@ -151,7 +153,7 @@ class Admin extends _react.default.Component {
   }
 
   setContext(ctx, callback) {
-    const context = _objectSpread({}, this.state.context, ctx);
+    var context = _objectSpread({}, this.state.context, {}, ctx);
 
     this.setState({
       context
@@ -186,103 +188,136 @@ class Admin extends _react.default.Component {
     window.bananas = undefined;
   }
 
-  async boot() {
-    logger.info("Booting...");
-    this.setTitle(); // Initialize API client
+  boot() {
+    var _this = this;
 
-    const apiProp = typeof this.props.api === "string" ? {
-      url: this.props.api
-    } : this.props.api;
+    return _asyncToGenerator(function* () {
+      logger.info("Booting...");
 
-    const apiBase = apiProp.url,
+      _this.setTitle(); // Initialize API client
+
+
+      var apiProp = typeof _this.props.api === "string" ? {
+        url: _this.props.api
+      } : _this.props.api;
+
+      var {
+        url: apiBase
+      } = apiProp,
           rest = _objectWithoutProperties(apiProp, ["url"]);
 
-    const apiUrl = `${apiBase}/v1.0/schema.json`;
-    let swagger = undefined;
+      var apiUrl = "".concat(apiBase, "/v1.0/schema.json");
+      var swagger = undefined;
 
-    try {
-      swagger = await new _api.default(_objectSpread({
-        url: apiUrl,
-        errorHandler: this.onAPIClientError.bind(this),
-        progressHandler: this.onAPIClientProgress.bind(this)
-      }, rest));
-    } catch (error) {
-      logger.error("Critical Error: Failed to initialize API client!", error);
-      const cause = error.response ? error.response.statusText : "Unreachable";
-      this.admin.error(`Failed to boot: API ${cause}`);
-      this.setState({
-        booting: false
-      });
-      return;
-    }
+      try {
+        swagger = yield new _api.default(_objectSpread({
+          url: apiUrl,
+          errorHandler: _this.onAPIClientError.bind(_this),
+          progressHandler: _this.onAPIClientProgress.bind(_this)
+        }, rest));
+      } catch (error) {
+        logger.error("Critical Error: Failed to initialize API client!", error);
+        var cause = error.response ? error.response.statusText : "Unreachable";
 
-    logger.info(`Initialized ${swagger.isAuthenticated ? "Authenticated" : "Un-authenticated"} Swagger Client:`, swagger);
-    this.swagger = swagger;
-    this.api = swagger.operations; // Load translations
+        _this.admin.error("Failed to boot: API ".concat(cause));
 
-    const i18n = await this.api["bananas.i18n:list"]();
-    window.i18n = i18n.obj.catalog; // Initialize Router
+        _this.setState({
+          booting: false
+        });
 
-    if (!this.router) {
-      this.router = new _router.default({
-        prefix: this.props.prefix
-      });
-      this.unlistenRouter = this.router.on("routeDidUpdate", this.routeDidUpdate.bind(this));
-    }
-
-    this.router.initialize(swagger); // Update AdminContext
-
-    this.setContext({
-      api: this.api,
-      router: this.router
-    }); // Route to current window location if API is authenticatd
-
-    if (swagger.isAuthenticated) {
-      if (!this.state.context.user) {
-        await this.authorize();
+        return;
       }
 
-      this.router.reroute();
-    } // Finalize boot
+      logger.info("Initialized ".concat(swagger.isAuthenticated ? "Authenticated" : "Un-authenticated", " Swagger Client:"), swagger);
+      _this.swagger = swagger;
+      _this.api = swagger.operations; // Load translations
+
+      var i18n = yield _this.api["bananas.i18n:list"]();
+      window.i18n = i18n.obj.catalog; // Initialize Router
+
+      if (!_this.router) {
+        _this.router = new _router.default({
+          prefix: _this.props.prefix
+        });
+        _this.unlistenRouter = _this.router.on("routeDidUpdate", _this.routeDidUpdate.bind(_this));
+      }
+
+      _this.router.initialize(swagger); // Update AdminContext
 
 
-    this.setState({
-      booting: false,
-      booted: true
-    }, () => {
-      logger.info("Booted!");
-    });
+      _this.setContext({
+        api: _this.api,
+        router: _this.router
+      }); // Route to current window location if API is authenticatd
+
+
+      if (swagger.isAuthenticated) {
+        if (!_this.state.context.user) {
+          yield _this.authorize();
+        }
+
+        _this.router.reroute();
+      } // Allow adding extra things to the AdminContext.
+
+
+      if (_this.props.customizeContext) {
+        _this.setContext(_this.props.customizeContext(_this.state.context));
+      } // Finalize boot
+
+
+      _this.setState({
+        booting: false,
+        booted: true
+      }, () => {
+        logger.info("Booted!");
+      });
+    })();
   }
 
-  async reboot(user) {
-    await this.shutdown();
+  reboot(user) {
+    var _this2 = this;
 
-    if (user) {
-      this.setContext({
-        user
-      });
-    }
+    return _asyncToGenerator(function* () {
+      yield _this2.shutdown();
 
-    this.boot();
+      if (user) {
+        _this2.setContext({
+          user
+        });
+      }
+
+      _this2.boot();
+    })();
   }
 
   shutdown() {
-    return new Promise(async resolve => {
-      await this.unmountPage();
-      this.swagger = undefined;
-      this.api = undefined;
-      this.setState({
-        booted: false
-      }, () => {
-        this.resetContext(resolve);
+    var _this3 = this;
+
+    return new Promise(
+    /*#__PURE__*/
+    function () {
+      var _ref = _asyncToGenerator(function* (resolve) {
+        yield _this3.unmountPage();
+        _this3.swagger = undefined;
+        _this3.api = undefined;
+
+        _this3.setState({
+          booted: false
+        }, () => {
+          _this3.resetContext(resolve);
+        });
       });
-    });
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
   }
 
   authorize() {
     return new Promise((resolve, reject) => {
-      const anonymous = new _errors.AnonymousUserError();
-      const endpoint = this.api["bananas.me:list"];
+      var anonymous = new _errors.AnonymousUserError();
+      var endpoint = this.api["bananas.me:list"];
 
       if (!endpoint) {
         reject(anonymous);
@@ -291,9 +326,9 @@ class Admin extends _react.default.Component {
 
       logger.debug("Authorizing...");
       endpoint().then(response => {
-        const user = _objectSpread({}, response.obj);
+        var user = _objectSpread({}, response.obj);
 
-        const current = this.state.context.user;
+        var current = this.state.context.user;
 
         if (JSON.stringify(user) !== JSON.stringify(current)) {
           logger.info("Authorized User:", user);
@@ -318,8 +353,10 @@ class Admin extends _react.default.Component {
     this.admin.error(error);
   }
 
-  onAPIClientProgress(_ref) {
-    let done = _ref.done;
+  onAPIClientProgress(_ref2) {
+    var {
+      done
+    } = _ref2;
     this.admin.progress(!done);
   }
 
@@ -329,149 +366,178 @@ class Admin extends _react.default.Component {
     });
   }
 
-  async routeDidUpdate(location, action) {
-    logger.info("App.routeDidUpdate()", action, location); // Get route from location state
+  routeDidUpdate(location, action) {
+    var _this4 = this;
 
-    const route = location.state ? location.state.route : null;
+    return _asyncToGenerator(function* () {
+      logger.info("App.routeDidUpdate()", action, location); // Get route from location state
 
-    if (action === "POP" && !route) {
-      this.router.reroute();
-      return;
-    } // Un-mount current page, if location changed
+      var route = location.state ? location.state.route : null;
 
+      if (action === "POP" && !route) {
+        _this4.router.reroute();
 
-    const currentPage = this.state.pageProps;
-
-    if (currentPage && (!currentPage.route || currentPage.route.path !== location.pathname)) {
-      await this.unmountPage();
-      this.admin.loading();
-    } // Authorize, load and mount page
+        return;
+      } // Un-mount current page, if location changed
 
 
-    try {
-      const _ref2 = await this.loadPage(location, route),
-            PageComponent = _ref2.PageComponent,
-            pageProps = _ref2.pageProps;
+      var currentPage = _this4.state.pageProps;
 
-      this.mountPage(PageComponent, pageProps);
-    } catch (error) {
-      this.admin.loading(false);
+      if (currentPage && (!currentPage.route || currentPage.route.path !== location.pathname)) {
+        yield _this4.unmountPage();
 
-      if (error instanceof _errors.PageError) {
-        this.mountErrorPage((0, _.t)(error.message), error.code);
-      } else if (error.response && [401, 403].includes(error.response.status)) {
-        try {
-          await this.authorize();
-          this.mountErrorPage((0, _.t)("Permission denied."), error.response.status);
-        } catch (authorizeError) {
-          if (authorizeError instanceof _errors.AnonymousUserError) {
-            this.reboot();
-          } else {
-            throw error;
+        _this4.admin.loading();
+      } // Authorize, load and mount page
+
+
+      try {
+        var {
+          PageComponent,
+          pageProps
+        } = yield _this4.loadPage(location, route);
+
+        _this4.mountPage(PageComponent, pageProps);
+      } catch (error) {
+        _this4.admin.loading(false);
+
+        if (error instanceof _errors.PageError) {
+          _this4.mountErrorPage((0, _utils.t)(error.message), error.code);
+        } else if (error.response && [401, 403].includes(error.response.status)) {
+          try {
+            yield _this4.authorize();
+
+            _this4.mountErrorPage((0, _utils.t)("Permission denied."), error.response.status);
+          } catch (authorizeError) {
+            if (authorizeError instanceof _errors.AnonymousUserError) {
+              _this4.reboot();
+            } else {
+              throw error;
+            }
           }
+        } else {
+          throw error;
         }
-      } else {
-        throw error;
       }
-    }
+    })();
   }
 
-  async loadPage(location, route) {
-    if (!route) {
-      throw new _errors.PageNotFoundError();
-    }
+  loadPage(location, route) {
+    var _this5 = this;
 
-    const id = route.id,
-          operationId = route.operationId,
-          params = route.params,
-          app = route.app,
-          path = route.path,
-          query = route.query,
-          hash = route.hash,
-          template = route.template;
-    const referer = this.state.pageProps ? this.state.pageProps.route || null : null;
-    let PageComponent = this.PageComponent; // Load or re-use page component
-
-    if (this.PageComponent && referer && referer.id === id) {
-      logger.debug("Re-using page component...");
-    } else {
-      logger.debug("Loading page component...", path, route, referer);
-
-      if (template === "Component") {
-        // Route has predefined page component, and no data needed
-        PageComponent = this.router.getOperationTemplate(operationId);
-      } else {
-        // Load page component
-        PageComponent = await this.loadPageComponent(template);
+    return _asyncToGenerator(function* () {
+      if (!route) {
+        throw new _errors.PageNotFoundError();
       }
-    } // Initialize page component props
 
-
-    const pageProps = {
-      key: `${id}:${location.search}`,
-      route: {
+      var {
         id,
+        operationId,
         params,
+        app,
         path,
         query,
         hash,
-        location
-      },
-      title: route.title,
-      data: undefined,
-      logger: this.getLogger(app),
-      referer
-    };
-    const reuseData = referer && location.hash && referer.location.pathname === location.pathname && referer.location.search === location.search; // Load page data, but only if path or query changed
+        template
+      } = route;
+      var referer = _this5.state.pageProps ? _this5.state.pageProps.route || null : null;
+      var {
+        PageComponent
+      } = _this5; // Load or re-use page component
 
-    if (reuseData) {
-      logger.debug("Re-using page data...");
-      pageProps.data = this.state.pageProps.data;
-    } else if ((route.action || "").match(/\.?(list|read)$/)) {
-      pageProps.data = await this.loadPageData(id, params, query);
-    }
+      if (_this5.PageComponent && referer && referer.id === id) {
+        logger.debug("Re-using page component...");
+      } else {
+        logger.debug("Loading page component...", path, route, referer);
 
-    return {
-      PageComponent,
-      pageProps
-    };
-  }
+        if (template === "Component") {
+          // Route has predefined page component, and no data needed
+          PageComponent = _this5.router.getOperationTemplate(operationId);
+        } else {
+          // Load page component
+          PageComponent = yield _this5.loadPageComponent(template);
+        }
+      } // Initialize page component props
 
-  async loadPageComponent(template) {
-    const pages = this.props.pages;
-    const exports = await pages(template).catch(() => {
-      throw new _errors.PageNotImplementedError();
-    });
-    return exports.default;
-  }
 
-  async loadPageData(operationId, params, filter) {
-    if (this.api[operationId]) {
-      logger.debug("Loading page data...", operationId, params, filter);
+      var pageProps = {
+        key: "".concat(id, ":").concat(location.search),
+        route: {
+          id,
+          params,
+          path,
+          query,
+          hash,
+          location
+        },
+        title: route.title,
+        data: undefined,
+        logger: _this5.getLogger(app),
+        referer
+      };
+      var reuseData = referer && location.hash && referer.location.pathname === location.pathname && referer.location.search === location.search; // Load page data, but only if path or query changed
 
-      try {
-        this.admin.loading();
-        const data = await this.api[operationId](_objectSpread({}, params, filter));
-        data.schema = this.api[operationId].response;
-
-        data.getTitle = path => {
-          if (data.schema == null) {
-            throw new TypeError(`Cannot get title because .schema is missing.`);
-          }
-
-          return (0, _utils.getFromSchema)(data.schema, `${path}.title`);
-        };
-
-        this.admin.loading(false);
-        return data;
-      } catch (error) {
-        this.admin.loading(false);
-        throw error;
+      if (reuseData) {
+        logger.debug("Re-using page data...");
+        pageProps.data = _this5.state.pageProps.data;
+      } else if ((route.action || "").match(/\.?(list|read)$/)) {
+        pageProps.data = yield _this5.loadPageData(id, params, query);
       }
-    }
 
-    logger.debug("Omitting page data...operationId is undefined, no data endpoint found");
-    return null;
+      return {
+        PageComponent,
+        pageProps
+      };
+    })();
+  }
+
+  loadPageComponent(template) {
+    var _this6 = this;
+
+    return _asyncToGenerator(function* () {
+      var {
+        pages
+      } = _this6.props;
+      var exports = yield pages(template).catch(() => {
+        throw new _errors.PageNotImplementedError();
+      });
+      return exports.default;
+    })();
+  }
+
+  loadPageData(operationId, params, filter) {
+    var _this7 = this;
+
+    return _asyncToGenerator(function* () {
+      if (_this7.api[operationId]) {
+        logger.debug("Loading page data...", operationId, params, filter);
+
+        try {
+          _this7.admin.loading();
+
+          var data = yield _this7.api[operationId](_objectSpread({}, params, {}, filter));
+          data.schema = _this7.api[operationId].response;
+
+          data.getTitle = path => {
+            if (data.schema == null) {
+              throw new TypeError("Cannot get title because .schema is missing.");
+            }
+
+            return (0, _utils.getFromSchema)(data.schema, "".concat(path, ".title"));
+          };
+
+          _this7.admin.loading(false);
+
+          return data;
+        } catch (error) {
+          _this7.admin.loading(false);
+
+          throw error;
+        }
+      }
+
+      logger.debug("Omitting page data...operationId is undefined, no data endpoint found");
+      return null;
+    })();
   }
 
   mountPage(PageComponent, pageProps) {
@@ -486,9 +552,9 @@ class Admin extends _react.default.Component {
   }
 
   mountErrorPage(title, statusCode) {
-    const _title = title || (0, _.t)("Server error");
+    var _title = title || (0, _utils.t)("Server error");
 
-    const _statusCode = statusCode || 500;
+    var _statusCode = statusCode || 500;
 
     logger.warn(_title, _statusCode);
     this.mountPage(_pages.ErrorPage, {
@@ -517,7 +583,7 @@ class Admin extends _react.default.Component {
 
   setTitle(title) {
     if (title) {
-      document.title = `${title} | ${this.props.title}`;
+      document.title = "".concat(title, " | ").concat(this.props.title);
     } else {
       document.title = this.props.title;
     }
@@ -532,11 +598,11 @@ class Admin extends _react.default.Component {
         }
       }).then(response => {
         logger.info("Successfull login...reboot");
-        const user = response.obj;
+        var user = response.obj;
         resolve(user);
         this.admin.dismissMessages();
         this.reboot(user);
-        this.admin.success(`${(0, _.t)("Welcome,")} ${user.full_name}`);
+        this.admin.success("".concat((0, _utils.t)("Welcome,"), " ").concat(user.full_name));
       }, error => {
         reject(error);
       });
@@ -550,20 +616,26 @@ class Admin extends _react.default.Component {
   }
 
   render() {
-    const PageComponent = this.PageComponent;
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          pageTheme = _this$props.pageTheme,
-          loginForm = _this$props.loginForm;
-    const _this$state = this.state,
-          booting = _this$state.booting,
-          booted = _this$state.booted,
-          context = _this$state.context,
-          settings = _this$state.settings,
-          pageProps = _this$state.pageProps;
-    const user = context.user;
-    const isHorizontalLayout = settings.horizontal;
-    const isVerticalLayout = !settings.horizontal;
+    var {
+      PageComponent
+    } = this;
+    var {
+      classes,
+      pageTheme,
+      loginForm
+    } = this.props;
+    var {
+      booting,
+      booted,
+      context,
+      settings,
+      pageProps
+    } = this.state;
+    var {
+      user
+    } = context;
+    var isHorizontalLayout = settings.horizontal;
+    var isVerticalLayout = !settings.horizontal;
     return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
       className: (0, _classnames.default)(classes.root, {
         [classes.admin]: booted && user,
@@ -604,24 +676,27 @@ class Admin extends _react.default.Component {
 
 }
 
-const BananasAdmin = (0, _styles.withStyles)(styles, {
+var BananasAdmin = (0, _styles.withStyles)(styles, {
   name: "BananasAdmin"
 })(Admin);
 
 class App extends _react.default.Component {
   render() {
-    const _this$props2 = this.props,
-          icons = _this$props2.icons,
-          _this$props2$nav = _this$props2.nav,
-          nav = _this$props2$nav === void 0 ? icons : _this$props2$nav,
-          rest = _objectWithoutProperties(_this$props2, ["icons", "nav"]);
+    var {
+      // Default `nav` to the legacy `icons` prop, and remove `icons` from props.
+      props: {
+        icons,
+        nav = icons
+      }
+    } = this,
+        rest = _objectWithoutProperties(this.props, ["icons", "nav"]);
 
-    const props = _objectSpread({
+    var props = _objectSpread({
       nav
     }, rest);
 
-    const theme = (0, _themes.createBananasTheme)(props.theme);
-    const pageTheme = props.pageTheme ? (0, _themes.createBananasTheme)(props.pageTheme) : undefined;
+    var theme = (0, _themes.createBananasTheme)(props.theme);
+    var pageTheme = props.pageTheme ? (0, _themes.createBananasTheme)(props.pageTheme) : undefined;
     logger.debug("Main Theme:", theme);
     logger.debug("Page Theme:", pageTheme);
     return _react.default.createElement(_styles.MuiThemeProvider, {
@@ -654,7 +729,8 @@ _defineProperty(App, "propTypes", {
   theme: _propTypes.default.object,
   pageTheme: _propTypes.default.object,
   loginForm: _propTypes.default.func,
-  editableSettings: _propTypes.default.bool
+  editableSettings: _propTypes.default.bool,
+  customizeContext: _propTypes.default.func
 });
 
 _defineProperty(App, "defaultProps", {
@@ -674,7 +750,8 @@ _defineProperty(App, "defaultProps", {
   theme: _themes.default.default,
   pageTheme: undefined,
   loginForm: undefined,
-  editableSettings: false
+  editableSettings: false,
+  customizeContext: undefined
 });
 
 var _default = App;

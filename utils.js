@@ -26,28 +26,16 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-const logger = _jsLogger.default.get("bananas");
+var logger = _jsLogger.default.get("bananas");
 
 function getCookie(name) {
-  const prefix = `${name}=`;
-  const cookies = document.cookie.split(/\s*;\s*/);
-  const match = cookies.find(cookie => cookie.startsWith(prefix));
+  var prefix = "".concat(name, "=");
+  var cookies = document.cookie.split(/\s*;\s*/);
+  var match = cookies.find(cookie => cookie.startsWith(prefix));
   return match == null ? undefined : match.slice(prefix.length);
 }
 
@@ -56,10 +44,10 @@ function toQuery(obj) {
     return "";
   }
 
-  const query = Object.keys(obj).map(key => {
-    return `${key}=${encodeURIComponent(obj[key])}`;
+  var query = Object.keys(obj).map(key => {
+    return "".concat(key, "=").concat(encodeURIComponent(obj[key]));
   }).join("&");
-  return query ? `?${query}` : "";
+  return query ? "?".concat(query) : "";
 }
 
 function fromQuery(query) {
@@ -68,11 +56,7 @@ function fromQuery(query) {
   }
 
   return query.substring(1).split("&").reduce((params, param) => {
-    const _param$split = param.split("="),
-          _param$split2 = _slicedToArray(_param$split, 2),
-          key = _param$split2[0],
-          value = _param$split2[1];
-
+    var [key, value] = param.split("=");
     return key === "" ? params : _objectSpread({}, params, {
       [key]: decodeURIComponent(value)
     });
@@ -81,7 +65,7 @@ function fromQuery(query) {
 
 function ensureTrailingSlash(path) {
   if (path != null && !path.endsWith("/")) {
-    return `${path}/`;
+    return "".concat(path, "/");
   }
 
   return path;
@@ -89,20 +73,20 @@ function ensureTrailingSlash(path) {
 
 function ensureLeadingHash(hash) {
   if (hash != null && !hash.startsWith("#")) {
-    return `#${hash}`;
+    return "#".concat(hash);
   }
 
   return hash;
 }
 
 function absolutePath(path) {
-  let basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "/";
+  var basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "/";
 
   if (!path) {
     return path;
   }
 
-  let pathname = path; // Make relative path absolute to basename
+  var pathname = path; // Make relative path absolute to basename
 
   if (!pathname.startsWith("/")) {
     pathname = ensureTrailingSlash(basename) + pathname;
@@ -110,9 +94,9 @@ function absolutePath(path) {
 
 
   if (pathname.indexOf(".") >= 0) {
-    const stack = [];
+    var stack = [];
 
-    for (const part of pathname.split("/")) {
+    for (var part of pathname.split("/")) {
       if (part === ".") {
         continue;
       } else if (part === ".." && stack.length > 0) {
@@ -129,7 +113,7 @@ function absolutePath(path) {
 }
 
 function nthIndexOf(str, pattern, n, start) {
-  const index = str.indexOf(pattern, start || 0);
+  var index = str.indexOf(pattern, start || 0);
 
   if (index >= 0 && n > 1) {
     return nthIndexOf(str, pattern, n - 1, index + 1);
@@ -148,11 +132,8 @@ function capitalize(string) {
 
 function interpolateString(string, params) {
   return Array.isArray(params) ? params.reduce((s, value) => s.replace(/%[sd]|\{\}/, value), string) : Object.entries(params).reduce((s, _ref) => {
-    let _ref2 = _slicedToArray(_ref, 2),
-        key = _ref2[0],
-        value = _ref2[1];
-
-    return s.replace(new RegExp(`%\\(${key}\\)[sd]|\\{${key}\\}`, "g"), value);
+    var [key, value] = _ref;
+    return s.replace(new RegExp("%\\(".concat(key, "\\)[sd]|\\{").concat(key, "\\}"), "g"), value);
   }, string);
 }
 
@@ -162,13 +143,15 @@ function t(key, params) {
     return key;
   }
 
-  const value = window.i18n[key] || key;
+  var value = window.i18n[key] || key;
   return params ? interpolateString(value, params) : value;
 }
 
-const Translate = (_ref3) => {
-  let children = _ref3.children,
-      params = _ref3.params;
+var Translate = (_ref2) => {
+  var {
+    children,
+    params
+  } = _ref2;
   return _react.default.createElement(_core.Typography, null, t(children, params));
 };
 
@@ -190,13 +173,19 @@ class ComponentProxy {
   }
 
   add(Component, alias) {
-    const reference = _react.default.createRef(); // Add exposed component actions to proxy
+    var _this = this;
+
+    var reference = _react.default.createRef(); // Add exposed component actions to proxy
 
 
-    for (const action of Component.expose) {
-      this.proxy[action] = function () {
+    var _loop = function _loop(action) {
+      _this.proxy[action] = function () {
         return reference.current ? reference.current[action](...arguments) : null;
       };
+    };
+
+    for (var action of Component.expose) {
+      _loop(action);
     } // Remember reference under alias for later use
 
 
@@ -222,7 +211,7 @@ class MultiMeter {
     _defineProperty(this, "step", (up, name) => up ? this.up(name) : this.down(name));
 
     _defineProperty(this, "change", (name, delta) => {
-      const n = name || "default";
+      var n = name || "default";
       this.meters[n] = Math.max((this.meters[n] || 0) + delta, 0);
       return this.meters[n];
     });
@@ -245,14 +234,11 @@ function getFromSchemaHelper(schema, pathItems, location) {
     return schema;
   }
 
-  const _pathItems = _toArray(pathItems),
-        key = _pathItems[0],
-        restPath = _pathItems.slice(1);
-
-  const type = {}.toString.call(schema);
+  var [key, ...restPath] = pathItems;
+  var type = {}.toString.call(schema);
 
   if (type !== "[object Object]") {
-    throw new TypeError(`Cannot access ${JSON.stringify(key)} on ${type} at ${JSON.stringify(["schema", ...location].join("."))}`);
+    throw new TypeError("Cannot access ".concat(JSON.stringify(key), " on ").concat(type, " at ").concat(JSON.stringify(["schema", ...location].join("."))));
   }
 
   if (schema.type === "array") {
@@ -264,7 +250,7 @@ function getFromSchemaHelper(schema, pathItems, location) {
   }
 
   if (!{}.hasOwnProperty.call(schema, key)) {
-    throw new TypeError(`${JSON.stringify(key)} is not present at ${JSON.stringify(["schema", ...location].join("."))}. Valid choices: ${JSON.stringify(Object.keys(schema))}`);
+    throw new TypeError("".concat(JSON.stringify(key), " is not present at ").concat(JSON.stringify(["schema", ...location].join(".")), ". Valid choices: ").concat(JSON.stringify(Object.keys(schema))));
   }
 
   return getFromSchemaHelper(schema[key], restPath, [...location, key]);

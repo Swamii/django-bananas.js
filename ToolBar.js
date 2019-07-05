@@ -7,11 +7,11 @@ exports.default = void 0;
 
 var _AppBar = _interopRequireDefault(require("@material-ui/core/AppBar"));
 
-var _Toolbar = _interopRequireDefault(require("@material-ui/core/Toolbar"));
-
 var _styles = require("@material-ui/core/styles");
 
 var _colorManipulator = require("@material-ui/core/styles/colorManipulator");
+
+var _Toolbar = _interopRequireDefault(require("@material-ui/core/Toolbar"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -33,7 +33,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     flexGrow: 0,
     flexShrink: 0
@@ -65,10 +65,10 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.getContrastText(theme.palette.background.paper),
     "& $borderTop": {
-      borderTop: `1px solid ${theme.palette.divider}`
+      borderTop: "1px solid ".concat(theme.palette.divider)
     },
     "& $borderBottom": {
-      borderBottom: `1px solid ${theme.palette.divider}`
+      borderBottom: "1px solid ".concat(theme.palette.divider)
     }
   }
 });
@@ -78,24 +78,24 @@ class ToolBar extends _react.default.Component {
     super(...arguments);
 
     _defineProperty(this, "makeTheme", (propTheme, color) => parentTheme => {
-      const theme = propTheme || parentTheme;
-      const primaryIsLight = (0, _colorManipulator.getLuminance)(theme.palette.primary.main) > 0.5;
-      const secondaryIsLight = (0, _colorManipulator.getLuminance)(theme.palette.secondary.main) > 0.5; // Darker primary color
+      var theme = propTheme || parentTheme;
+      var primaryIsLight = (0, _colorManipulator.getLuminance)(theme.palette.primary.main) > 0.5;
+      var secondaryIsLight = (0, _colorManipulator.getLuminance)(theme.palette.secondary.main) > 0.5; // Darker primary color
 
-      const primary = color === "primary" && this.props.emphasize ? {
+      var primary = color === "primary" && this.props.emphasize ? {
         main: theme.palette.primary.dark,
         light: (0, _colorManipulator.lighten)(theme.palette.primary.main, theme.palette.tonalOffset * 2.0),
         dark: (0, _colorManipulator.darken)(theme.palette.primary.dark, theme.palette.tonalOffset * 1.5),
         contrastText: (0, _colorManipulator.getLuminance)(theme.palette.primary.dark) > 0.5 ? theme.palette.text.primary : theme.palette.common.white
       } : theme.palette.primary; // Darker secondary color
 
-      const secondary = color === "secondary" && this.props.emphasize ? {
+      var secondary = color === "secondary" && this.props.emphasize ? {
         main: theme.palette.secondary.dark,
         light: (0, _colorManipulator.lighten)(theme.palette.secondary.main, theme.palette.tonalOffset * 2.0),
         dark: (0, _colorManipulator.darken)(theme.palette.secondary.dark, theme.palette.tonalOffset * 1.5),
         contrastText: (0, _colorManipulator.getLuminance)(theme.palette.secondary.dark) > 0.5 ? theme.palette.text.primary : theme.palette.common.white
       } : theme.palette.secondary;
-      const overrides = {
+      var overrides = {
         MuiButton: {
           contained: {
             // Contained Button[default] @ ToolBar[any]
@@ -179,9 +179,10 @@ class ToolBar extends _react.default.Component {
 
   getTheme() {
     if (!this.theme) {
-      const _this$props = this.props,
-            theme = _this$props.theme,
-            color = _this$props.color;
+      var {
+        theme,
+        color
+      } = this.props;
       return this.makeTheme(theme, color).bind(this);
     }
 
@@ -189,18 +190,20 @@ class ToolBar extends _react.default.Component {
   }
 
   renderAppBar() {
-    const _this$props2 = this.props,
-          classes = _this$props2.classes,
-          theme = _this$props2.theme,
-          autoStyle = _this$props2.autoStyle,
-          emphasize = _this$props2.emphasize,
-          overrides = _this$props2.overrides,
-          children = _this$props2.children,
-          color = _this$props2.color,
-          border = _this$props2.border,
-          dense = _this$props2.dense,
-          justify = _this$props2.justify,
-          rest = _objectWithoutProperties(_this$props2, ["classes", "theme", "autoStyle", "emphasize", "overrides", "children", "color", "border", "dense", "justify"]);
+    var _this$props = this.props,
+        {
+      classes,
+      theme,
+      autoStyle,
+      emphasize,
+      overrides,
+      children,
+      color,
+      border,
+      dense,
+      justify
+    } = _this$props,
+        rest = _objectWithoutProperties(_this$props, ["classes", "theme", "autoStyle", "emphasize", "overrides", "children", "color", "border", "dense", "justify"]);
 
     return _react.default.createElement(_AppBar.default, _extends({
       elevation: 0,
@@ -223,13 +226,14 @@ class ToolBar extends _react.default.Component {
   }
 
   renderToolbar() {
-    const _this$props3 = this.props,
-          classes = _this$props3.classes,
-          overrides = _this$props3.overrides,
-          children = _this$props3.children,
-          border = _this$props3.border,
-          dense = _this$props3.dense,
-          justify = _this$props3.justify;
+    var {
+      classes,
+      overrides,
+      children,
+      border,
+      dense,
+      justify
+    } = this.props;
     return _react.default.createElement(_Toolbar.default, {
       variant: dense ? "dense" : "regular",
       classes: {
@@ -252,7 +256,9 @@ class ToolBar extends _react.default.Component {
   }
 
   render() {
-    const theme = this.props.theme;
+    var {
+      theme
+    } = this.props;
     return theme ? _react.default.createElement(_styles.MuiThemeProvider, {
       theme: theme
     }, this.renderAppBar()) : this.renderAppBar();

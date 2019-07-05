@@ -19,17 +19,19 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-const styles = _ => ({
+var styles = _ => ({
   root: {}
 });
 
 class Container extends _react.default.Component {
   render() {
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          children = _this$props.children,
-          className = _this$props.className,
-          rest = _objectWithoutProperties(_this$props, ["classes", "children", "className"]);
+    var _this$props = this.props,
+        {
+      classes,
+      children,
+      className
+    } = _this$props,
+        rest = _objectWithoutProperties(_this$props, ["classes", "children", "className"]);
 
     return _react.default.createElement("div", _extends({
       className: (0, _classnames.default)(classes.root, className)

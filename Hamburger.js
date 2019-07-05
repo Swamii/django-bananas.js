@@ -19,21 +19,23 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: theme.spacing.unit / 2,
-    paddingRight: theme.spacing.unit / 2,
+    paddingLeft: theme.spacing(0.5),
+    paddingRight: theme.spacing(0.5),
     marginRight: "1px"
   }
 });
 
-const Hamburger = (_ref) => {
-  let classes = _ref.classes,
-      open = _ref.open,
-      onToggle = _ref.onToggle;
+var Hamburger = (_ref) => {
+  var {
+    classes,
+    open,
+    onToggle
+  } = _ref;
   return _react.default.createElement("div", {
     className: classes.root
   }, open ? _react.default.createElement(_IconButton.default, {

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _materialUiPickers = require("material-ui-pickers");
+var _pickers = require("@material-ui/pickers");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -17,13 +17,16 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-const DateTimeField = (_ref) => {
-  let _ref$input = _ref.input,
-      _onChange = _ref$input.onChange,
-      inputProps = _objectWithoutProperties(_ref$input, ["onChange"]),
-      fieldProps = _ref.fieldProps;
+var DateTimeField = (_ref) => {
+  var {
+    input: {
+      onChange: _onChange
+    },
+    fieldProps
+  } = _ref,
+      inputProps = _objectWithoutProperties(_ref.input, ["onChange"]);
 
-  return _react.default.createElement(_materialUiPickers.DateTimePicker, _extends({}, inputProps, fieldProps, {
+  return _react.default.createElement(_pickers.DateTimePicker, _extends({}, inputProps, fieldProps, {
     onChange: date => {
       _onChange(date.toISOString());
     }

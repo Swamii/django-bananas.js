@@ -15,7 +15,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     display: "flex",
     flexDirection: "row",
@@ -23,17 +23,18 @@ const styles = theme => ({
     alignItems: "center",
     "& > * + *": {
       // Margin between nodes (buttons)
-      marginLeft: theme.spacing.unit
+      marginLeft: theme.spacing(1)
     }
   }
 });
 
 class Tools extends _react.default.Component {
   render() {
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          children = _this$props.children,
-          className = _this$props.className;
+    var {
+      classes,
+      children,
+      className
+    } = this.props;
     return _react.default.createElement("div", {
       className: (0, _classnames.default)(classes.root, className)
     }, children);

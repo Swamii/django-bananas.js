@@ -19,7 +19,7 @@ var _Logo = _interopRequireDefault(require("./Logo"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const styles = () => ({
+var styles = () => ({
   root: {
     width: "100%",
     display: "flex",
@@ -39,7 +39,7 @@ const styles = () => ({
       textAlign: "left",
       fontSize: "0.75rem",
       display: "block",
-      lineHeight: `1em`
+      lineHeight: "1em"
     }
   },
   textLogo: {
@@ -48,13 +48,15 @@ const styles = () => ({
 });
 
 function Branding(_ref) {
-  let classes = _ref.classes,
-      className = _ref.className,
-      logo = _ref.logo,
-      title = _ref.title,
-      subtitle = _ref.subtitle,
-      version = _ref.version,
-      onClick = _ref.onClick;
+  var {
+    classes,
+    className,
+    logo,
+    title,
+    subtitle,
+    version,
+    onClick
+  } = _ref;
   return _react.default.createElement("div", {
     className: classes.root
   }, _react.default.createElement(_core.ButtonBase, {

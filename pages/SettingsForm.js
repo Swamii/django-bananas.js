@@ -15,9 +15,9 @@ var _FormGroup = _interopRequireDefault(require("@material-ui/core/FormGroup"));
 
 var _FormLabel = _interopRequireDefault(require("@material-ui/core/FormLabel"));
 
-var _Switch = _interopRequireDefault(require("@material-ui/core/Switch"));
-
 var _styles = require("@material-ui/core/styles");
+
+var _Switch = _interopRequireDefault(require("@material-ui/core/Switch"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -27,10 +27,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   reset: {
     marginLeft: 48,
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing(1)
   }
 });
 
@@ -52,10 +52,11 @@ class SettingsForm extends _react.default.Component {
   }
 
   render() {
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          settings = _this$props.settings;
-    const labels = {
+    var {
+      classes,
+      settings
+    } = this.props;
+    var labels = {
       horizontal: "Horizontal Layout",
       collapsable: "Collapsable Navigation",
       collapsed: "Collapsed",

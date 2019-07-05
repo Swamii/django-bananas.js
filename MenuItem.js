@@ -19,11 +19,11 @@ var _Link = _interopRequireDefault(require("./Link"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { if (i % 2) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } else { Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i])); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => ({
+var styles = theme => ({
   root: {
     paddingTop: 0,
     paddingBottom: 0,
@@ -65,22 +65,22 @@ const styles = theme => ({
     },
     "&$wide": {
       // Wide outer height
-      minHeight: 40 + theme.spacing.unit,
+      minHeight: 40 + theme.spacing(1),
       "& $avatarItem": {
         // Expanded avatar wrapper width, with centered Avatar
-        width: 40 + theme.spacing.unit * 3
+        width: 40 + theme.spacing(3)
       },
       "&$collapsed $avatarItem": {
         // Collapsed avatar wrapper width, with centered Avatar
-        width: 40 + theme.spacing.unit * 2
+        width: 40 + theme.spacing(2)
       }
     },
     "&$dense": {
       // Dense outer height
-      minHeight: 24 + theme.spacing.unit,
+      minHeight: 24 + theme.spacing(1),
       "& $avatarItem": {
         // Avatar wrapper width, with centered Avatar
-        width: 40 + theme.spacing.unit * 2
+        width: 40 + theme.spacing(2)
       }
     },
     "&$expanded $labelItem": {
@@ -93,7 +93,7 @@ const styles = theme => ({
     },
     "& $labelInset:first-child": {
       // Outermost left edge padding when icons disabled
-      paddingLeft: theme.spacing.unit * 3
+      paddingLeft: theme.spacing(3)
     }
   },
   appbarVariant: {
@@ -102,26 +102,26 @@ const styles = theme => ({
       minHeight: 36,
       "&$leftAligned": {
         // Outermost edge padding
-        paddingLeft: theme.spacing.unit * 1.5,
-        paddingRight: theme.spacing.unit * 1.5
+        paddingLeft: theme.spacing(5),
+        paddingRight: theme.spacing(5)
       }
     },
     "&$leftAligned": {
       // Outermost edge padding
-      paddingLeft: theme.spacing.unit * 2,
-      paddingRight: theme.spacing.unit * 2,
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
       "& $avatarItem": {
         // Padding between avatar and label
-        marginRight: theme.spacing.unit
+        marginRight: theme.spacing(1)
       }
     },
     "&$rightAligned": {
       // Outermost edge padding
-      paddingLeft: theme.spacing.unit * 2,
-      paddingRight: theme.spacing.unit * 3,
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(3),
       "& $avatarItem": {
         // Padding between avatar and label
-        marginLeft: theme.spacing.unit
+        marginLeft: theme.spacing(1)
       }
     },
     "& $labelInset:first-child": {
@@ -220,25 +220,27 @@ const styles = theme => ({
   }
 });
 
-const MenuItem = (_ref) => {
-  let classes = _ref.classes,
-      route = _ref.route,
-      title = _ref.title,
-      subtitle = _ref.subtitle,
-      variant = _ref.variant,
-      icon = _ref.icon,
-      selected = _ref.selected,
-      collapsed = _ref.collapsed,
-      dense = _ref.dense,
-      direction = _ref.direction;
-  const ItemIcon = icon;
-  const showIcon = ItemIcon !== null;
-  const isIconDefined = showIcon && Boolean(ItemIcon);
-  const isDrawerVariant = variant === "drawer";
-  const isAppBarVariant = variant === "appbar";
-  const isLtR = direction === "ltr";
-  const isRtL = direction === "rtl";
-  const isMultiLine = Boolean(subtitle);
+var MenuItem = (_ref) => {
+  var {
+    classes,
+    route,
+    title,
+    subtitle,
+    variant,
+    icon,
+    selected,
+    collapsed,
+    dense,
+    direction
+  } = _ref;
+  var ItemIcon = icon;
+  var showIcon = ItemIcon !== null;
+  var isIconDefined = showIcon && Boolean(ItemIcon);
+  var isDrawerVariant = variant === "drawer";
+  var isAppBarVariant = variant === "appbar";
+  var isLtR = direction === "ltr";
+  var isRtL = direction === "rtl";
+  var isMultiLine = Boolean(subtitle);
   return _react.default.createElement(_Link.default, {
     route: route
   }, _react.default.createElement(_core.ListItem, {
@@ -295,7 +297,7 @@ MenuItem.propTypes = {
   title: _propTypes.default.string.isRequired,
   subtitle: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.node]),
   variant: _propTypes.default.string,
-  icon: _propTypes.default.func,
+  icon: _propTypes.default.oneOfType([_propTypes.default.node, _propTypes.default.func, _propTypes.default.object]),
   dense: _propTypes.default.bool,
   selected: _propTypes.default.bool,
   collapsed: _propTypes.default.bool,

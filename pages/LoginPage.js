@@ -9,9 +9,9 @@ var _Dialog = _interopRequireDefault(require("@material-ui/core/Dialog"));
 
 var _DialogTitle = _interopRequireDefault(require("@material-ui/core/DialogTitle"));
 
-var _Typography = _interopRequireDefault(require("@material-ui/core/Typography"));
-
 var _styles = require("@material-ui/core/styles");
+
+var _Typography = _interopRequireDefault(require("@material-ui/core/Typography"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -23,30 +23,32 @@ var _LoginPageForm = _interopRequireDefault(require("./LoginPageForm"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const DialogTitle = (0, _styles.withStyles)(theme => ({
+var DialogTitle = (0, _styles.withStyles)(theme => ({
   root: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    borderBottom: "1px solid ".concat(theme.palette.divider),
     margin: 0,
     textAlign: "center",
     backgroundColor: theme.palette.primary.main,
-    padding: theme.spacing.unit * 2
+    padding: theme.spacing(2)
   },
   closeButton: {
     position: "absolute",
-    right: theme.spacing.unit,
-    top: theme.spacing.unit,
+    right: theme.spacing(1),
+    top: theme.spacing(1),
     color: theme.palette.grey[500]
   }
 }))(props => {
-  const children = props.children,
-        classes = props.classes;
+  var {
+    children,
+    classes
+  } = props;
   return _react.default.createElement(_DialogTitle.default, {
     disableTypography: true,
     className: classes.root
   }, children);
 });
 
-const pageStyles = theme => ({
+var pageStyles = theme => ({
   title: {},
   textLogo: {
     color: theme.palette.primary.contrastText,
@@ -56,12 +58,13 @@ const pageStyles = theme => ({
 
 class LoginPage extends _react.default.Component {
   render() {
-    const _this$props = this.props,
-          classes = _this$props.classes,
-          logger = _this$props.logger,
-          title = _this$props.title,
-          logo = _this$props.logo;
-    const Form = this.props.form || _LoginPageForm.default;
+    var {
+      classes,
+      logger,
+      title,
+      logo
+    } = this.props;
+    var Form = this.props.form || _LoginPageForm.default;
     return _react.default.createElement(_Dialog.default, {
       onClose: this.handleClose,
       "aria-labelledby": "customized-dialog-title",
