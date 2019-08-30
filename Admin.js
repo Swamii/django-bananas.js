@@ -742,7 +742,7 @@ _defineProperty(App, "defaultProps", {
   collapsed: false,
   title: "Bananas",
   branding: "Bananas",
-  version: "v1.3.0",
+  version: "v2.0.0",
   // TODO: Get package version
   logo: true,
   icons: undefined,

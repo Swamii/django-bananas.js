@@ -24,6 +24,11 @@ var logger = _jsLogger.default.get("bananas");
 class Router {
   constructor() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _defineProperty(this, "multipleParamsRegexp", new RegExp(/\{[^}]+\}/g));
+
+    _defineProperty(this, "getAdjustedPathLength", route => route.path.replace(this.multipleParamsRegexp, "").split("/"));
+
     var basename = options.prefix || "";
 
     if (basename.endsWith("/")) {
@@ -161,7 +166,14 @@ class Router {
   }
 
   sort() {
-    this.routes = this.routes.sort((route1, route2) => route1.path < route2.path ? 1 : -1);
+    this.routes = this.routes.sort((route1, route2) => {
+      var path1 = this.getAdjustedPathLength(route1);
+      var path2 = this.getAdjustedPathLength(route2); // If both paths has the same segment length, grade based on ... :
+
+      return path1.length === path2.length // ... alphabetical order
+      ? path1 < path2 ? 1 : -1 : path1.length < path2.length // ... segment length
+      ? 1 : -1;
+    });
   }
 
   on(eventName, handler) {
